@@ -1,0 +1,10 @@
+inventories/**/hosts.ini
+inventories/**/group_vars/secrets.yml
+
+.env
+.venv
+__pycache__/
+
+*.log
+*.pem
+id_rsa
