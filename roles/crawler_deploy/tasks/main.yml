@@ -1,0 +1,24 @@
+---
+- name: 1. Clonar/Atualizar Repositório dos Crawlers
+  git:
+    repo: "{{ crawler_repo_url | default('https://github.com/SEU_USUARIO/crawler-engine.git') }}"
+    dest: "/data/data/com.termux/files/home/data_projects/crawler_engine"
+    version: main
+    force: yes
+  # Nota: Se for repo privado, precisaremos configurar chaves SSH depois.
+
+- name: 2. Instalar requirements.txt do projeto (se houver)
+  shell: "pip install -r /data/data/com.termux/files/home/data_projects/crawler_engine/requirements.txt"
+  ignore_errors: yes
+
+- name: 3. Injetar Variáveis de Ambiente (.env)
+  copy:
+    dest: "/data/data/com.termux/files/home/data_projects/crawler_engine/.env"
+    mode: '0600'
+    content: |
+      # Gerado via Ansible
+      ENV_TYPE=mobile_cluster
+      DB_USER={{ ansible_user }}
+      DB_PASS={{ db_password | default('sem_senha') }}
+      OPENAI_API_KEY={{ openai_api_key | default('') }}
+  no_log: true

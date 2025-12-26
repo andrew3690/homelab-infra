@@ -1,0 +1,13 @@
+---
+- name: Configurar Cluster de DataOps (Edge & Core)
+  hosts: workers
+  gather_facts: no
+  
+  # Carrega os segredos (que o git ignora) antes de tudo
+  vars_files:
+    - "../inventories/edge_only/group_vars/secrets.yml"
+
+  roles:
+    - role: ../roles/common           # 1. Arruma o sistema
+    - role: ../roles/crawler_runtime  # 2. Instala Pandas/Scrapy e cria Pastas
+    - role: ../roles/crawler_deploy   # 3. Baixa o código e cria o .env

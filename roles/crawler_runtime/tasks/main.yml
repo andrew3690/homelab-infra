@@ -1,0 +1,21 @@
+---
+- name: 1. Instalar Dependências de Compilação
+  shell: "pkg install -y python-pip libxml2 libxslt clang make libjpeg-turbo tur-repo"
+
+- name: 2. Instalar Pandas e Numpy (Nativo do Termux - Rápido)
+  shell: "pkg install -y python-numpy python-pandas"
+
+- name: 3. Instalar Bibliotecas de Crawling via PIP
+  shell: "pip install requests beautifulsoup4 scrapy parsel tqdm duckdb polars"
+
+- name: 4. Criar Estrutura de Data Lake (Medallion)
+  file:
+    path: "/data/data/com.termux/files/home/datalake/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - landing_zone
+    - bronze
+    - silver
+    - gold
+    - logs
